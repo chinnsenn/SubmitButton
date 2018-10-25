@@ -11,7 +11,7 @@ import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
 import java.lang.ref.WeakReference
 import kotlin.math.min
 
@@ -31,9 +31,9 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
 
     private var mButtonStrokeWidth: Float? = null
 
-    private var mButtonPaint: Paint? = null
+    private var mPaintButton: Paint? = null
 
-    private var mButtonTextPaint: Paint? = null
+    private var mPaintText: Paint? = null
 
     private var mPaintProcess: Paint? = null
 
@@ -79,7 +79,7 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
 
     private var mProgress: Float = 0f
 
-    private var mDuration: Long = 500L
+    private var mDuration: Long = 400L
 
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
 
@@ -100,20 +100,20 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
     }
 
     private fun initViews() {
-        mButtonPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        mButtonPaint?.color = this.mButtonColor!!
-        mButtonPaint?.style = Paint.Style.STROKE
-        mButtonPaint?.strokeWidth = mButtonStrokeWidth!!
+        mPaintButton = Paint(Paint.ANTI_ALIAS_FLAG)
+        mPaintButton?.color = this.mButtonColor!!
+        mPaintButton?.style = Paint.Style.STROKE
+        mPaintButton?.strokeWidth = mButtonStrokeWidth!!
 
-        mPaintProcess = Paint(mButtonPaint)
+        mPaintProcess = Paint(mPaintButton)
         mPaintProcess?.strokeWidth = mButtonStrokeWidth!! * 2
 
-        mButtonTextPaint = Paint(mButtonPaint)
-        mButtonTextPaint?.style = Paint.Style.FILL
-        mButtonTextPaint?.textSize = dp2px(mButtonTextSize!!).toFloat()
-        mButtonTextPaint?.textAlign = Paint.Align.CENTER
+        mPaintText = Paint(mPaintButton)
+        mPaintText?.style = Paint.Style.FILL
+        mPaintText?.textSize = dp2px(mButtonTextSize!!).toFloat()
+        mPaintText?.textAlign = Paint.Align.CENTER
 
-        mPaintBackground = Paint(mButtonPaint)
+        mPaintBackground = Paint(mPaintButton)
         mPaintBackground?.style = Paint.Style.FILL_AND_STROKE
 
         mButtonRectF = RectF()
@@ -138,8 +138,8 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
         mEndValueAnimator?.duration = mDuration
         mButtonValueAnimator?.duration = mDuration
         mProgressValueAnimator?.duration = mDuration.times(10)
-        mButtonValueAnimator?.interpolator = AccelerateDecelerateInterpolator()
-        mProgressValueAnimator?.interpolator = AccelerateDecelerateInterpolator()
+        mButtonValueAnimator?.interpolator = AccelerateInterpolator()
+        mProgressValueAnimator?.interpolator = AccelerateInterpolator()
 
         val updateListener = AnimatorUpdateListener(this)
         mStartValueAnimator?.addUpdateListener(updateListener)
@@ -183,9 +183,6 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
                         mCurrentState = STATE_CANCEL
                     }
                 }
-            }
-            MotionEvent.ACTION_CANCEL -> {
-
             }
         }
         return true
@@ -239,6 +236,10 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
             }
         }
 
+        if (thisHeight * 3 > thisWidth) {
+            thisHeight = thisWidth / 3
+        }
+
         setMeasuredDimension(thisWidth, thisHeight)
 
         mButtonRatio = measuredHeight / 2f
@@ -252,6 +253,7 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
     }
 
     override fun onDraw(canvas: Canvas?) {
+
         mButtonRectF?.set(mButtonStrokeWidth!! + mWidthDelta, mButtonStrokeWidth!!, measuredWidth.toFloat() - mButtonStrokeWidth!! - mWidthDelta, measuredHeight.toFloat() - mButtonStrokeWidth!!)
 
         //绘制按钮背景
@@ -260,18 +262,20 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
         }
 
         //绘制按钮线框
-        canvas?.drawRoundRect(mButtonRectF!!, mButtonRatio!!, mButtonRatio!!, mButtonPaint!!)
+        canvas?.drawRoundRect(mButtonRectF!!, mButtonRatio!!, mButtonRatio!!, mPaintButton!!)
 
         //绘制按钮文字
         if (isDrawText) {
-            canvas?.drawText(mButtonText!!, centerX!!, getBaseLine(centerY!!), mButtonTextPaint!!)
+            canvas?.drawText(mButtonText!!, centerX!!, getBaseLine(centerY!!), mPaintText!!)
         }
 
         //绘制加载框
         if (mCurrentState == STATE_LOADING) {
             mPathArc?.addArc(mRectFArc!!, -90f, mProgress)
             canvas?.drawPath(mPathArc!!, mPaintProcess!!)
+            mPathArc?.reset()
         }
+//        canvas?.drawPath(mPathCheckMark!!, mPaintCheckMark!!)
     }
 
     public fun setProgress(percent: Float) {
@@ -298,7 +302,7 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
     }
 
     private fun getBaseLine(centerY: Float): Float {
-        val fontMetrics = mButtonTextPaint?.fontMetrics
+        val fontMetrics = mPaintText?.fontMetrics
         return (centerY + (fontMetrics?.bottom!! - fontMetrics.top) / 2 - fontMetrics.bottom)
     }
 
@@ -327,8 +331,8 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
                     if (STATE_COMPLETE == submitButton.mCurrentState) {
                         submitButton.mCurrentState = STATE_INIT
                         submitButton.isDrawText = true
+                        submitButton.mButtonText = "完成"
                         submitButton.mProgress = 0f
-                        submitButton.mPathArc?.reset()
                         submitButton.mEndValueAnimator?.start()
                     }
                 }
@@ -345,8 +349,8 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
                 submitButton.mButtonValueAnimator!! -> {
                     if (animation is ValueAnimator) {
                         if (submitButton.mCurrentState != STATE_COMPLETE) {
-                            submitButton.mButtonPaint?.color = Color.LTGRAY
-                            submitButton.mButtonPaint?.strokeWidth = submitButton.mButtonStrokeWidth!! * 2
+                            submitButton.mPaintButton?.color = Color.LTGRAY
+                            submitButton.mPaintButton?.strokeWidth = submitButton.mButtonStrokeWidth!! * 2
                             submitButton.mButtonValueAnimator?.setFloatValues(submitButton.measuredWidth.toFloat() - submitButton.measuredHeight.toFloat(), 0f)
                             submitButton.mProgressValueAnimator?.start()
                         } else if (submitButton.mCurrentState == STATE_COMPLETE) {
@@ -359,9 +363,10 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
                     submitButton.mCurrentState = STATE_COMPLETE
                     submitButton.mButtonValueAnimator?.startDelay = 0L
                     submitButton.mButtonValueAnimator?.start()
-                    submitButton.mButtonPaint?.color = submitButton.mButtonColor!!
-                    submitButton.mButtonPaint?.strokeWidth = submitButton.mButtonStrokeWidth!!
+                    submitButton.mPaintButton?.color = submitButton.mButtonColor!!
+                    submitButton.mPaintButton?.strokeWidth = submitButton.mButtonStrokeWidth!!
                     submitButton.mStartValueAnimator?.start()
+                    submitButton.mTextValueAnimator?.start()
                 }
             }
         }
@@ -385,8 +390,8 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
                     val color: Int = animation.animatedValue as Int
                     submitButton.mPaintBackground?.color = color
                     if (animation.currentPlayTime >= animation.duration / 2L) {
-                        if (submitButton.mButtonTextPaint?.color == submitButton.mButtonColor!!) {
-                            submitButton.mButtonTextPaint?.color = Color.WHITE
+                        if (submitButton.mPaintText?.color == submitButton.mButtonColor!!) {
+                            submitButton.mPaintText?.color = Color.WHITE
                         }
                     }
                     submitButton.invalidate()
@@ -394,8 +399,11 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
                 submitButton.mEndValueAnimator!! -> {
                     val color: Int = animation.animatedValue as Int
                     submitButton.mPaintBackground?.color = color
-                    if (submitButton.mButtonTextPaint?.color != submitButton.mButtonColor!! && animation.currentPlayTime >= animation.duration / 2L) {
-                        submitButton.mButtonTextPaint?.color = submitButton.mButtonColor!!
+                    if (submitButton.mPaintText?.color != submitButton.mButtonColor!! && animation.currentPlayTime >= animation.duration / 2L) {
+                        submitButton.mPaintText?.color = submitButton.mButtonColor!!
+                    }
+                    if (submitButton.mCurrentState == STATE_INIT && animation.currentPlayTime >= animation.duration / 2L) {
+                        submitButton.mButtonText = "确认"
                     }
                     submitButton.invalidate()
                 }
@@ -407,7 +415,7 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
                     submitButton.setProgress(animation.animatedValue as Float)
                 }
                 submitButton.mTextValueAnimator!! -> {
-                    submitButton.mButtonTextPaint?.textSize = animation.animatedValue as Float
+                    submitButton.mPaintText?.textSize = animation.animatedValue as Float
                     submitButton.invalidate()
                 }
 

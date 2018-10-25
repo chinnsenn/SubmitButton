@@ -7,8 +7,8 @@
     tools:context=".MainActivity">
 
     <com.chinnsenn.submitbutton.SubmitButton
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:text="Hello World!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
