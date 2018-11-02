@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onStart() {
-//                submitButton.postDelayed({ submitButton.stop() }, 15000)
+                submitButton.postDelayed({ submitButton.stop() }, 15000)
             }
         })
     }

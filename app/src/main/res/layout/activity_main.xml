@@ -10,10 +10,13 @@
         android:id="@+id/submitbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:buttonColor="#11aa03"
+        app:buttonStrokeWidth="5"
+        app:buttonTextSize="15sp"
+        app:completeText="上传完成"
+        app:failureText="上传失败"
+        app:progressColor="#6377ff"
+        app:unKnownProgress = "true"
+        app:submitText="确认" />
 
 </android.support.constraint.ConstraintLayout>

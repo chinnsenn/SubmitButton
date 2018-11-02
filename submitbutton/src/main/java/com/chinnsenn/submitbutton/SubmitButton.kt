@@ -139,7 +139,10 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
         buttonStrokeWidth = typedArray.getFloat(R.styleable.SubmitButton_buttonStrokeWidth, 5f)
         submitText = if (typedArray.getString(R.styleable.SubmitButton_submitText) == null) "Submit" else typedArray.getString(R.styleable.SubmitButton_submitText)!!
         completeText = if (typedArray.getString(R.styleable.SubmitButton_completeText) == null) "Complete" else typedArray.getString(R.styleable.SubmitButton_completeText)!!
-        buttonTextSize = typedArray.getDimension(R.styleable.SubmitButton_buttonTextSize, 20f)
+        failureText = if (typedArray.getString(R.styleable.SubmitButton_failureText) == null) "Complete" else typedArray.getString(R.styleable.SubmitButton_failureText)!!
+        buttonTextSize = typedArray.getDimensionPixelSize(R.styleable.SubmitButton_buttonTextSize, 20).toFloat()
+        unKnownProgress = typedArray.getBoolean(R.styleable.SubmitButton_unKnownProgress, true)
+
         mButtonText = submitText
         typedArray.recycle()
 
@@ -158,7 +161,7 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
 
         mPaintText = Paint(mPaintButton)
         mPaintText?.style = Paint.Style.FILL
-        mPaintText?.textSize = dp2px(buttonTextSize!!).toFloat()
+        mPaintText?.textSize = buttonTextSize!!.toFloat()
         mPaintText?.textAlign = Paint.Align.CENTER
 
         mPaintBackground = Paint(mPaintButton)
@@ -173,7 +176,7 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
         mStartValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), Color.WHITE, buttonColor!!)
         mEndValueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), buttonColor!!, Color.WHITE)
 
-        val textSizePX = dp2px(buttonTextSize!!).toFloat()
+        val textSizePX = buttonTextSize!!.toFloat()
 
         mTextValueAnimator = ValueAnimator.ofFloat(textSizePX, textSizePX * 0.8f, textSizePX)
         mButtonValueAnimator = ValueAnimator()
@@ -450,6 +453,7 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
                         submitButton.mEndValueAnimator?.start()
                     } else if (STATE_FAILURE == submitButton.mCurrentState) {
                         submitButton.mProgress = 0f
+                        submitButton.mEndValueAnimator?.startDelay = submitButton.mDuration * 2
                         submitButton.mEndValueAnimator?.start()
                         submitButton.mStartValueAnimator?.setObjectValues(Color.WHITE, submitButton.buttonColor)
                     }

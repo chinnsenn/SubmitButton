@@ -6,6 +6,8 @@
         <attr name="buttonStrokeWidth" format="float"/>
         <attr name="submitText" format="string" />
         <attr name="completeText" format="string" />
+        <attr name="failureText" format="string" />
         <attr name="buttonTextSize" format="dimension" />
+        <attr name="unKnownProgress" format="boolean" />
     </declare-styleable>
 </resources>
