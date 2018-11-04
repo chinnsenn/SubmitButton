@@ -1,1 +1,2 @@
-/build
+/build/*
+!/build/outputs/aar/submitbutton-release.aar
