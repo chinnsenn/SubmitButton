@@ -342,6 +342,10 @@ class SubmitButton(context: Context, attributeSet: AttributeSet?, defStyleAttr: 
             } else {
                 //给具体进度
                 canvas?.drawArc(mRectFArc!!, -90F, mProgress, false, mPaintProcess!!)
+                val percent = String.format("%d%%", (mProgress * 100 / 360).toInt())
+                println("percent = $percent")
+                mPaintText?.color = buttonColor!!
+                canvas?.drawText(percent, centerX!!, getBaseLine(centerY!!), mPaintText!!)
             }
         }
     }

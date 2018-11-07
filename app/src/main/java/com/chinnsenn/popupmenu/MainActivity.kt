@@ -22,11 +22,11 @@ class MainActivity : AppCompatActivity() {
         animator.duration = 3000
         animator.addUpdateListener {
             var percent = it.animatedValue as Float
-            if (percent > 0.5f) {
-                submitButton.failure()
-            } else {
+//            if (percent > 0.5f) {
+//                submitButton.failure()
+//            } else {
                 submitButton.setProgress(percent)
-            }
+//            }
         }
 
         submitButton.setOnStatusListener(object : SubmitButton.OnStatusListener {
