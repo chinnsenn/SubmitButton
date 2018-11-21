@@ -27,15 +27,22 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
             mPaintText.color = value!!
         }
 
-    var total: Int = 100
+    var totalValue: Int = 100
         set(value) {
             field = value
-            mAnimatorBar.setIntValues(0, total)
+            mAnimatorBar.setIntValues(startValue, value)
+        }
+
+    var startValue = 0
+        set(value) {
+            field = value
+            mAnimatorBar.setIntValues(value, totalValue)
         }
 
     var currentProcess: Int? = null
         set(value) {
-            field = if (value!! >= total) total else value
+            if (value!! < startValue || value > totalValue) throw RuntimeException("currentProcess must be between startValue and totalValue")
+            field = if (value >= totalValue) totalValue else value
             mAnimatorBar.start()
         }
 
@@ -44,6 +51,8 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
             field = value
             mAnimatorBar.duration = value.toLong()
         }
+
+    var stageCount = 0
 
     private var mWidthBubble = 35f
 
@@ -87,7 +96,7 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
 
     private var progressText: String? = null
 
-    private var mAnimatorBar: ValueAnimator = ValueAnimator.ofInt(0, total)
+    private var mAnimatorBar: ValueAnimator = ValueAnimator.ofInt(0, totalValue)
 
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
 
@@ -101,9 +110,9 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
         bubbleColor = typedArray.getColor(R.styleable.ScheduleBar_bubbleColor, Color.parseColor("#46B7F2"))
         textColor = typedArray.getColor(R.styleable.ScheduleBar_textColor, Color.WHITE)
         duration = typedArray.getInteger(R.styleable.ScheduleBar_duration, 3000)
+        stageCount = typedArray.getInteger(R.styleable.ScheduleBar_stageCount, mDefaultStageCount)
 
         typedArray.recycle()
-
         mMaxBarHeight = dp2px(3f).toFloat()
 
         mWidthBubble = dp2px(35f).toFloat()
@@ -132,7 +141,7 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
             val progress = it.animatedValue as Int
             if (progress <= currentProcess!!) {
                 progressText = progress.toString()
-                mRectFClip.right = measuredWidth * (progress / total.toFloat()) + mPaddingHorizontal
+                mRectFClip.right = measuredWidth * ((progress - startValue) / (totalValue - startValue).toFloat()) + mPaddingHorizontal
                 invalidate()
             } else {
                 progressText = currentProcess.toString()
@@ -152,9 +161,11 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
 
         mPathBarBg.addRect(mRectFBar, Path.Direction.CW)
 
-        val lengthPerStage = (measuredWidth - mPaddingHorizontal * 2) / (mDefaultStageCount - 1)
-        for (i in 0 until mDefaultStageCount) {
-            mPathBarBg.addCircle((i * lengthPerStage) + mPaddingHorizontal, mMaxBarHeight / 2 + mPaddingVertical, mMaxBarHeight * 3 / 2f, Path.Direction.CW)
+        if (stageCount > 0) {
+            val lengthPerStage = (measuredWidth - mPaddingHorizontal * 2) / (stageCount - 1)
+            for (i in 0 until stageCount) {
+                mPathBarBg.addCircle((i * lengthPerStage) + mPaddingHorizontal, mMaxBarHeight / 2 + mPaddingVertical, mMaxBarHeight * 3 / 2f, Path.Direction.CW)
+            }
         }
 
         mPathBarFg.addPath(mPathBarBg)

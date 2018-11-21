@@ -14,8 +14,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         scheduleBar = findViewById(R.id.sb_growup)
-        scheduleBar.total = 25000
-        scheduleBar.currentProcess = 15011
+        scheduleBar.totalValue = 25000
+        scheduleBar.startValue = 15000
+        scheduleBar.currentProcess = 18213
 
 //        submitButton = findViewById(R.id.submitbutton)
 //        submitButton.submitText = "开始上传"
