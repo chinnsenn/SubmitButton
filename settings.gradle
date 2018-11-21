@@ -1,1 +1,1 @@
-include ':app', ':submitbutton'
+include ':app', ':submitbutton', ':schedulebar'
