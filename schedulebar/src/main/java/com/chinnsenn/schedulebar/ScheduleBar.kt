@@ -159,7 +159,7 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
 
         mRectFClip.set(0f, 0f, 0f, measuredHeight.toFloat())
 
-        mPathBarBg.addRect(mRectFBar, Path.Direction.CW)
+        mPathBarBg.addRoundRect(mRectFBar, mMaxBarHeight / 2, mMaxBarHeight / 2, Path.Direction.CW)
 
         if (stageCount > 0) {
             val lengthPerStage = (measuredWidth - mPaddingHorizontal * 2) / (stageCount - 1)
