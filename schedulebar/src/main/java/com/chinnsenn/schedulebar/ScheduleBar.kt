@@ -54,6 +54,8 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
 
     var stageCount = 0
 
+    var hideTotalText = false
+
     private var mWidthBubble = 35f
 
     private var mHeightBubble = 17f
@@ -111,10 +113,9 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
         textColor = typedArray.getColor(R.styleable.ScheduleBar_textColor, Color.WHITE)
         duration = typedArray.getInteger(R.styleable.ScheduleBar_duration, 3000)
         stageCount = typedArray.getInteger(R.styleable.ScheduleBar_stageCount, mDefaultStageCount)
-
         typedArray.recycle()
-        mMaxBarHeight = dp2px(3f).toFloat()
 
+        mMaxBarHeight = dp2px(3f).toFloat()
         mWidthBubble = dp2px(35f).toFloat()
         mHeightBubble = dp2px(17f).toFloat()
         mWidthTriangle = dp2px(4f).toFloat()
@@ -149,15 +150,15 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
                 mAnimatorBar.cancel()
             }
         }
+
+        mRectFClip.set(0f, 0f, 0f, mMaxBarHeight + mPaddingVertical * 1.5f)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), (mMaxBarHeight + mPaddingVertical * 4).toInt())
+        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), (mMaxBarHeight + mPaddingVertical * 1.5).toInt())
         centerX = measuredWidth / 2f; centerY = measuredHeight / 2f
 
         mRectFBar.set(mPaddingHorizontal, mPaddingVertical, measuredWidth.toFloat() - mPaddingHorizontal, mPaddingVertical + mMaxBarHeight)
-
-        mRectFClip.set(0f, 0f, 0f, measuredHeight.toFloat())
 
         mPathBarBg.addRoundRect(mRectFBar, mMaxBarHeight / 2, mMaxBarHeight / 2, Path.Direction.CW)
 
@@ -182,15 +183,27 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
         canvas?.drawPath(mPathBarBg, mPaintBarBg)
 
         canvas?.save()
-        canvas?.translate(mRectFClip.right - mPaddingHorizontal, 0f)
+        canvas?.translate(mRectFClip.right - mWidthBubble / 2, 0f)
         canvas?.drawPath(mPathBubble, mPaintBubble)
-        canvas?.drawText(progressText!!, mWidthBubble / 2f, getBaseLine(mHeightBubble / 2f), mPaintText)
+        if (!progressText.isNullOrBlank()) {
+            canvas?.drawText(progressText!!, mWidthBubble / 2f, getBaseLine(mHeightBubble / 2f), mPaintText)
+        }
         canvas?.restore()
+
+        canvas?.drawText(startValue.toString(), mRectFBar.left, getBaseLine(mRectFBar.bottom + mPaddingVertical / 4f), mPaintText)
+        if (!hideTotalText) {
+            canvas?.drawText(totalValue.toString(), mRectFBar.right, getBaseLine(mRectFBar.bottom + mPaddingVertical / 4f), mPaintText)
+        }
 
         canvas?.save()
         canvas?.clipRect(mRectFClip)
         canvas?.drawPath(mPathBarFg, mPaintBarFg)
         canvas?.restore()
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        mAnimatorBar.cancel()
     }
 
     private fun dp2px(dp: Float): Int {

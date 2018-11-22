@@ -31,9 +31,10 @@
     <com.chinnsenn.schedulebar.ScheduleBar
         android:id="@+id/sb_growup"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         app:barColor="@color/colorPrimary"
         app:duration="10000"
+        app:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

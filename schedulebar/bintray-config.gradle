@@ -10,11 +10,11 @@ ext {
     //以下三项均是必配项
     publishedGroupId = 'com.chinnsenn.schedulebar'
     artifact = 'schedulebar'
-    libraryVersion = '0.2.0'
+    libraryVersion = '0.3.2'
 
     //以下三项只是对开源库的描述（应该不是必配项吧，没尝试过）
     libraryName = 'schedulebar'
-    libraryDescription = 'a button with progress'
+    libraryDescription = 'A custom view like seekbar'
     siteUrl = 'https://github.com/foreveronly/submitbutton/tree/master/schedulebar'
 
     //开源库对应的 github 地址，不知道可不可以不配，应该也是必配
