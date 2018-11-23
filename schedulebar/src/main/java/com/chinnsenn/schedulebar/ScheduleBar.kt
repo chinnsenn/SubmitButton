@@ -96,7 +96,7 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
 
     private var centerX: Float? = null
 
-    private var progressText: String? = null
+    private var progressText: String = startValue.toString()
 
     private var mAnimatorBar: ValueAnimator = ValueAnimator.ofInt(0, totalValue)
 
@@ -151,7 +151,7 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
             }
         }
 
-        mRectFClip.set(0f, 0f, 0f, mMaxBarHeight + mPaddingVertical * 1.5f)
+        mRectFClip.set(0f, 0f, mPaddingHorizontal, mMaxBarHeight + mPaddingVertical * 1.5f)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
