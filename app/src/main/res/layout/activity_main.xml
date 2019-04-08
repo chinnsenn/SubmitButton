@@ -14,7 +14,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:visibility="gone"
         app:buttonColor="#11aa03"
         app:buttonStrokeWidth="5"
         app:buttonTextSize="15sp"
@@ -24,20 +23,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:progressColor="#6377ff"
+        app:progressColor="#FF63D3"
         app:submitText="确认"
         app:unKnownProgress="true" />
 
-    <com.chinnsenn.schedulebar.ScheduleBar
-        android:id="@+id/sb_growup"
-        android:layout_width="300dp"
-        android:layout_height="20dp"
-        app:barColor="@color/colorPrimary"
-        app:duration="10000"
-        app:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:stageCount="0" />
+    <!--<com.chinnsenn.schedulebar.ScheduleBar-->
+        <!--android:id="@+id/sb_growup"-->
+        <!--android:layout_width="300dp"-->
+        <!--android:layout_height="20dp"-->
+        <!--app:barColor="@color/colorPrimary"-->
+        <!--app:duration="10000"-->
+        <!--app:textColor="#000000"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:stageCount="0" />-->
 </android.support.constraint.ConstraintLayout>

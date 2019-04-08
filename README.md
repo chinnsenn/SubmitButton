@@ -85,5 +85,10 @@
 ## 0.2.0更新
 - 新增具体进度数字（确定进度状态下）
 
+##更新计划
+ - 支持使用背景selector ([issues#1](https://github.com/foreveronly/SubmitButton/issues/1))
+ - 优化回调执行时机 ([issues#2](https://github.com/foreveronly/SubmitButton/issues/2))
+ - 更多自定义参数
+
 -------
 因为没有具体参数，只能摸索的仿造，也是为了熟悉 kotlin，有许多不足之处，也欢迎PQ。
