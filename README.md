@@ -1,7 +1,7 @@
 ![build](https://img.shields.io/badge/build-success-blue.svg)
 [![GitHub release](https://img.shields.io/badge/release-0.2.0.1-green.svg)](https://github.com/foreveronly/SubmitButton/raw/master/submitbutton/build/outputs/aar/submitbutton-release.aar)
 ![](https://img.shields.io/badge/language-kotlin-orange.svg)
-# 自定义带进度圈的按钮 --- SubmitButton (kotlin)
+# 自定义带进度圈的按钮 SubmitButton (kotlin)
 ![Android](https://ws2.sinaimg.cn/large/006tNbRwly1fwscfx487hg30mi05ktow.gif)
 
 ## 使用方法
@@ -82,13 +82,13 @@
 此控件为还原 Dribble 上一个动效而制作
 ![](https://ws2.sinaimg.cn/large/006tNbRwly1fwscfvvrkgg30mi05kdsm.gif)
 
-## 0.2.0更新
-- 新增具体进度数字（确定进度状态下）
+## 更新日志
+- v0.2.0 新增具体进度数字（确定进度状态下）
+- v0.2.0.1 修改 onComplete() 调用时机，在 EndAnimator#onAnimationEnd()中调用
 
 ## 更新计划
  - 支持使用背景selector ([issues#1](https://github.com/foreveronly/SubmitButton/issues/1))
- - 优化回调执行时机 ([issues#2](https://github.com/foreveronly/SubmitButton/issues/2))
  - 更多自定义参数
 
 -------
-因为没有具体参数，只能摸索的仿造，也是为了熟悉 kotlin，有许多不足之处，也欢迎PQ。
+因为没有具体参数，只能摸索的仿造，而且没有使用场景可能导致兼容性不好，有许多不足之处，也欢迎PQ。
