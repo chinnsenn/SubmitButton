@@ -3,6 +3,7 @@
     <declare-styleable name="SubmitButton">
         <attr name="buttonColor" format="color"/>
         <attr name="progressColor" format="color"/>
+        <attr name="failureColor" format="color"/>
         <attr name="buttonStrokeWidth" format="float"/>
         <attr name="submitText" format="string" />
         <attr name="completeText" format="string" />

@@ -186,7 +186,7 @@ class ScheduleBar(context: Context, attributeSet: AttributeSet?, defStyleAttr: I
         canvas?.translate(mRectFClip.right - mWidthBubble / 2, 0f)
         canvas?.drawPath(mPathBubble, mPaintBubble)
         if (!progressText.isNullOrBlank()) {
-            canvas?.drawText(progressText!!, mWidthBubble / 2f, getBaseLine(mHeightBubble / 2f), mPaintText)
+            canvas?.drawText(progressText, mWidthBubble / 2f, getBaseLine(mHeightBubble / 2f), mPaintText)
         }
         canvas?.restore()
 
