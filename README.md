@@ -97,7 +97,7 @@
 
 ---
 
-因为没有具体参数，只能摸索的仿造，而且没有使用场景可能导致兼容性不好，有许多不足之处，也欢迎PQ。
+因为没有具体参数，只能摸索的仿造，而且没有使用场景可能导致兼容性不好，有许多不足之处，也欢迎PR。
 
 [1]: https://raw.githubusercontent.com/chinnsenn/BlogFigureBed/master/blogimg/006tNbRwgy1fwvyecvoq9g30mi05kk9f.gif
 [2]: https://github.com/foreveronly/SubmitButton/releases
