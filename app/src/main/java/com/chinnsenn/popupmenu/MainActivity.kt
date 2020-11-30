@@ -2,7 +2,8 @@ package com.chinnsenn.popupmenu
 
 import android.animation.ValueAnimator
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import com.chinnsenn.submitbutton.SubmitButton
 
 class MainActivity : AppCompatActivity() {
@@ -24,16 +25,16 @@ class MainActivity : AppCompatActivity() {
         submitButton.completeText = "上传完成"
         submitButton.failureText = "上传失败"
         submitButton.unKnownProgress = false
+//        submitButton.failureColor = ContextCompat.getColor(this, R.color.colorPrimary)
 
         val animator: ValueAnimator = ValueAnimator.ofFloat(0f, 1f)
         animator.duration = 3000
         animator.addUpdateListener {
-            var percent = it.animatedValue as Float
+            val percent = it.animatedValue as Float
 //            if (percent > 0.5f) {
 //                submitButton.error()
 //            } else {
-//            println("percent = $percent")
-            submitButton.setProgress(percent)
+                submitButton.setProgress(percent)
 //            }
         }
 
