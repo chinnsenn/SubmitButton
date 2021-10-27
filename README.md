@@ -6,9 +6,22 @@
 
 ## 使用方法
 
+0、在工程根目录 build.gradle 中添加
+
+```
+allprojects {
+    repositories {
+        google()
+        mavenCentral() //0.2.3 开始
+    }
+}
+```
+
 1、在 gradle 里引用:
 
+```
 `implementation 'com.chinnsenn.submitbutton:submitbutton:#last_version'` ([这里查看最新版本号][2])
+```
 
 2、在 xml 中添加控件
 
@@ -29,12 +42,12 @@
 
 - 属性也可以在代码中设置
 
-```xml
-        val submitButton:SubmitButton = findViewById(R.id.submitbutton)
-        submitButton.submitText = "开始上传"
-        submitButton.completeText = "上传完成"
-        submitButton.failureText = "上传失败"
-        submitButton.unKnownProgress = false
+```kotlin
+val submitButton:SubmitButton = findViewById(R.id.submitbutton)
+submitButton.submitText = "开始上传"
+submitButton.completeText = "上传完成"
+submitButton.failureText = "上传失败"
+submitButton.unKnownProgress = false
 ```
 
 属性介绍
@@ -89,6 +102,7 @@
 
 - v0.2.0 新增具体进度数字（确定进度状态下）
 - v0.2.0.1 修改 onComplete() 调用时机，在 EndAnimator#onAnimationEnd()中调用
+- v0.2.3 托管库移动到 mavenCentral
 
 ## 更新计划
 
