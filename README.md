@@ -17,10 +17,10 @@ allprojects {
 }
 ```
 
-1、在 gradle 里引用:
+1、在 gradle 里引用: [这里查看最新版本号][2]
 
-```
-`implementation 'com.chinnsenn.submitbutton:submitbutton:#last_version'` ([这里查看最新版本号][2])
+```gradle
+implementation 'com.chinnsenn:submitbutton:#last_version' 
 ```
 
 2、在 xml 中添加控件
