@@ -12,7 +12,7 @@
 allprojects {
     repositories {
         google()
-        mavenCentral() //0.2.3 开始
+        mavenCentral() //0.2.2 开始
     }
 }
 ```
